@@ -52,8 +52,9 @@ export const articleSlice = createSlice({
             console.log(action.payload);
             const payload = action.payload
             payload.id = nextId() // fake id to avoid the error
-            state.articles =[...state.articles, payload]
-            return state   
+            state.articles.push(payload)
+            // state.articles =[...state.articles, payload]
+            // return state   
         }
     },
    extraReducers(builder) {
