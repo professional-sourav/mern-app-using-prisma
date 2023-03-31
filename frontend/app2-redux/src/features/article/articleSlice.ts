@@ -1,10 +1,11 @@
-import { createSlice, AsyncThunk, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import nextId from "react-id-generator";
+import { ApplicationState, Article } from '../../app/types'
 
 const API_URL = 'http://localhost:5000/articles';
 
-const articleInitialState: any = {
+const articleInitialState: ApplicationState = {
     
     isLoading: false,
     articles: [],
@@ -14,18 +15,25 @@ const articleInitialState: any = {
 export const fetchArticles = createAsyncThunk(
     'posts/fetchArticles',
     async () => {
-        try {
-            const response = await axios(API_URL)
-            return [...response.data]
-        } catch(err: any) {
-            return err.message
-        }
+        
+        // try {
+        //     const response = await axios(API_URL)
+        //     return [...response.data]
+        // } catch(err: any) {
+        //     return err.message
+        // }
+
+        return axios(API_URL)
+        .then(response => response.data)
+        .catch(err => {
+            console.log(err.message);
+        })
     }
 )
 
 export const postArticle = createAsyncThunk(
     'posts/postArticles',
-    async (data) => {
+    async (data: Article) => {
         console.log("From PostArticle AsyncThunk", data);
         
         try {

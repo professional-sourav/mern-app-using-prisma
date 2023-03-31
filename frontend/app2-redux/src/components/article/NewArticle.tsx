@@ -1,12 +1,16 @@
 import {Formik, Form, Field} from 'formik'
 import { useDispatch } from 'react-redux';
 import { addArticle, postArticle } from '../../features/article/articleSlice';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { Article } from '../../app/types';
 
 const NewArticle = () => {
 
-    const dispatch = useDispatch();
+    const formInitValue: Article = { id: '', title: '', content: '' };
 
-    const handelSubmit = (value: any) => {
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+    const handelSubmit = (value: Article) => {
 
         dispatch(addArticle(value))
 
@@ -15,7 +19,7 @@ const NewArticle = () => {
 
     return (
         <div>
-            <Formik initialValues={{ title: '', content: '' }} onSubmit={handelSubmit}>
+            <Formik initialValues={formInitValue} onSubmit={handelSubmit}>
                 <Form>
                     <label htmlFor="title">Title</label>
                     <Field id="title" name="title" placeholder="Title" />
